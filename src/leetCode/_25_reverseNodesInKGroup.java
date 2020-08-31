@@ -30,14 +30,55 @@ public class _25_reverseNodesInKGroup {
 		for(int i=2;i<=5;i++) {
 			p.next=new ListNode(i);
 			p=p.next;
-		}
+		}//-1,2,3,4,5
 		
 		//s.reverse(head, 4);
-		s.reverseKGroup(head, 2);
+		p=s.reverseKGroup_recursion(head, 2);
+		
+		while(p!=null) {
+			System.out.println(p.val);
+			p=p.next;
+		}
 	}
+	
+	
+	public ListNode reverseKGroup_recursion(ListNode head,int k) {
+		
+		ListNode p=head;
+		for(int i=0;i<k;i++) {
+			if(p!=null){
+				p=p.next;
+			}else {
+				return head;
+			}
+		}
+		
+		ListNode nextHead=p;
+		
+		
+		ListNode dummyHead=new ListNode(-1);
+		p=head;
+		while(p!=nextHead) {// tail->dummy;      p->p.next->
+			ListNode temp=dummyHead.next;
+			dummyHead.next=p;
+			p=p.next;
+			dummyHead.next.next=temp;
+		}
+		
+		p=dummyHead;
+		for(int i=0;i<k;i++) {
+			p=p.next;
+		}
+		
+		
+		p.next=reverseKGroup_recursion(nextHead,k);
+		return dummyHead.next;
+	}
+	
 	public ListNode reverseKGroup(ListNode head, int k) {
 		ListNode p=head;
 		ListNode p4h=head;//the head of last part that need not to be reversed.
+		
 		int c=0;
 		while(p!=null) {
 			if(c%k==0) {
