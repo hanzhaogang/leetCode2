@@ -55,7 +55,18 @@ public class _4_MedianSortedArrays {
 		 * 5,6,7,8,9->5.5
 		 */
 		
+		int numCount=A.length+B.length;
+		int k=0;
+		if(numCount%2!=0) {
+			k=numCount/2+1;
+			return getKth(A,0,A.length-1,B,0,B.length-1,k);
+		}else {
+			k=numCount/2+0.5;
+		}
 		
+	}
+	
+	private int getKth(int[] A,int A_lo,int A_hi,int[] B,int B_lo,int B_hi,int k) {
 		
 	}
 }
