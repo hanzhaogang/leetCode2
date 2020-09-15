@@ -157,3 +157,151 @@ class Pair460{
 		return "val:"+value+" fre:"+fre+" time:"+time;
 	}
 }
+
+
+public class LFUCache {
+    private Map<Integer, LFUCacheNode> map;
+    private Map<Integer, LFUCacheDbLinkedList> freqMap;
+    private int size, capacity, minF; // minF 当前最低频率
+
+    public LFUCache(int capacity) {
+        map = new HashMap<>();
+        freqMap = new HashMap<>();
+        freqMap.put(1, new LFUCacheDbLinkedList()); // 默认开一个频率为 1 的链表
+        this.capacity = capacity;
+        size = 0;
+        minF = 1; // 当前最低频率 1
+    }
+
+    public int get(int key) {
+        int res = -1;
+        if (map.containsKey(key)) {
+            LFUCacheNode node = map.get(key);
+            res = node.value;
+            useOnce(node); // 封装更新节点频率的所有操作
+        }
+        return res;
+    }
+
+    public void put(int key, int value) {
+        if (map.containsKey(key)) {
+            // exist
+            LFUCacheNode node = map.get(key);
+            node.value = value; // 别忘了更新值
+            useOnce(node); // 封装更新节点频率的所有操作
+            return;
+        }
+
+        // not exist
+        // 新建节点
+        LFUCacheNode newOne = new LFUCacheNode(key, value);
+        map.put(key, newOne);
+        // 加入频率 1 的链表
+        LFUCacheDbLinkedList list1 = freqMap.get(1);
+        list1.add(newOne);
+        if (size == capacity) {
+            // 挤出 当前最低频率 里的最后一个
+            LFUCacheDbLinkedList listMin = freqMap.get(minF);
+            LFUCacheNode removed = listMin.removeLast();
+            // 【易漏】移除数据映射
+            map.remove(removed.key);
+        } else size++;
+
+        // 【易漏】更新当前最低频率
+        minF = 1;
+    }
+
+    // 封装更新节点频率的所有操作
+    private void useOnce(LFUCacheNode node) {
+        // 原来频率的链表
+        LFUCacheDbLinkedList oriList = freqMap.get(node.freq);
+        oriList.remove(node);
+
+        // 新的频率
+        int newF = node.freq + 1;
+        // 【易错】若旧链表里已经清空，则更新当前最低频率
+        if (minF == node.freq && oriList.isEmpty()) minF = newF;
+
+        // 新频率的链表增加节点
+        if (!freqMap.containsKey(newF)) freqMap.put(newF, new LFUCacheDbLinkedList());
+        LFUCacheDbLinkedList newList = freqMap.get(newF);
+        newList.add(node);
+
+        // 更新节点频率
+        node.freq = newF;
+    }
+}
+
+
+
+class LFUCache {
+    Map<Integer,Integer> key2value;
+    Map<Integer,Integer> key2fre;
+    Map<Integer,Set<Integer>> fre2Keys;
+    int capacity;
+    int min;
+    
+    public LFUCache(int capacity) {
+        this.capacity=capacity;
+        key2value=new HashMap<Integer,Integer>();
+        key2fre=new HashMap<Integer,Integer>();
+        key2Keys=new HashMap<Integer,Set<Integer>>();
+        min=-1;
+        //countKeysMap.put(1, new LinkedHashSet<>());
+    }
+    
+    public int get(int key) {
+        if(!key2value.containsKey(key))
+            return -1;
+        
+        //update key2fre
+        int oldFre=key2fre.get(key);
+        int newFre=oldFre+1;
+        useCount.put(key, newCount);
+        //update countKeysMap
+        Set<Integer> keys=countKeysMap.getOrDefault(newCount, new LinkedHashSet<>());
+        keys.add(key);
+        countKeysMap.put(newCount, keys); 
+        Set<Integer> oldKeys=countKeysMap.get(oldCount);
+        oldKeys.remove(key);
+        if(oldCount==min&&oldKeys.size()==0)
+        	min++;//?
+        return cache.get(key);
+    }
+    
+    public void put(int key, int value) {
+        if(capacity<=0) return;
+        
+        if(cache.containsKey(key)){//if contains, even if reach the size limit, still no evit.
+            cache.put(key,value);
+        	get(key);//get?
+            return;
+        }
+    	if(capacity<=cache.size()) {//==?
+    		Integer evit=countKeysMap.get(min).iterator().next();
+    		cache.remove(evit);
+    		useCount.remove(evit);//
+            Set<Integer> keys=countKeysMap.get(min);
+            keys.remove(evit);
+            //if(keys.size()==0) countKeysMap.remove(min);
+    	}
+        
+        cache.put(key,value);
+        	useCount.put(key, 1);
+           	//if(min==-1) min=1;
+            min=1;
+           	Set<Integer> keys=countKeysMap.getOrDefault(1, new LinkedHashSet<>());
+           	keys.add(key);
+           	countKeysMap.put(1, keys);
+        
+        return;
+    }
+}
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache obj = new LFUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
+
