@@ -95,12 +95,3 @@ public class _564_FindCloesetPalindrome {
 
     }
 }
-/*
- *  coding, design, bq, experience, 
- *  
- *  fb feedback: 
- *  1. good communication.
- *  2. complexity analysise
- *  3. bug free code
- *  4. find the optimize solution.
- */

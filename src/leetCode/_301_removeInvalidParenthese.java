@@ -48,10 +48,10 @@ public class _301_removeInvalidParenthese {
 		System.out.println(s.removeInvalidParentheses(str));
 	}
     public List<String> removeInvalidParentheses(String s) {
-    	int[] counts=getCounts(s);
+    	int[] invalidCounts=getInvalidCounts(s);
     	
     	Set<String> combs=new HashSet<>();
-    	bt(combs,new StringBuilder(),s,counts,0);
+    	bt(combs,"",s,invalidCounts[0],invalidCounts[1],0);
     	
     	List<String> res=new ArrayList<>();
     	for(String comb:combs) {
@@ -62,25 +62,21 @@ public class _301_removeInvalidParenthese {
     	return res;
     }
     
-    private void bt(Set<String> combs,StringBuilder sb,String s,int[] leftCounts,int lo){//())(
-    	if((0<leftCounts[0]||0<leftCounts[1])&&s.length()<=lo) {
+    private void bt(Set<String> combs,String comb,String s,
+    		int leftCounts0,int leftCounts1,int lo){//())(
+    	if((0<leftCounts0||0<leftCounts1)&&s.length()<=lo) {
 //    		sb.delete(0,sb.length());
     		return;
     	}
     	
-    	if(leftCounts[0]==0&&leftCounts[1]==0) {
-    		int l=s.substring(lo).length();
-    		sb.append(s.substring(lo));
-    		String comb=sb.toString();
-    		combs.add(comb);
-    		sb.delete(sb.length()-l, sb.length());
+    	if(leftCounts0==0&&leftCounts1==0) {
+    		combs.add(comb+s.substring(lo));
     		return;
     	}
     	
     	char curChar=s.charAt(lo);
     	if(curChar!='('&&curChar!=')') {
-    		bt(combs,sb.append(curChar),s,leftCounts,lo+1);
-    		sb.deleteCharAt(sb.length()-1);
+    		bt(combs,comb+curChar,s,leftCounts0,leftCounts1,lo+1);
     	}else if(curChar=='(') {
     		if(0<leftCounts[0]) {
     			leftCounts[0]--;
@@ -121,7 +117,7 @@ public class _301_removeInvalidParenthese {
     	
     	return stack.isEmpty();
     }
-	private int[] getCounts(String s) {
+	private int[] getInvalidCounts(String s) {//())(//(())
 		Deque<Character> stack=new ArrayDeque<>();
     	for(char c:s.toCharArray()) {
     		if(c!='('&&c!=')')

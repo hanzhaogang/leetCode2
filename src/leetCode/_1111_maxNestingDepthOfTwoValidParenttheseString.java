@@ -23,6 +23,7 @@ such that A and B are VPS's (and A.length + B.length = seq.length).
 
 Now choose any such A and B such that 
 max(depth(A), depth(B)) is the minimum possible value.
+尽可能地均匀平分
 
 Return an answer array (of length seq.length) 
 that encodes such a choice of A and B:  
@@ -56,5 +57,51 @@ public class _1111_maxNestingDepthOfTwoValidParenttheseString {
 	 */
     public int[] maxDepthAfterSplit(String seq) {
         
+    }
+}
+
+
+class Solution {
+    public int[] maxDepthAfterSplit(String seq) {
+        
+        
+        //find count
+        int c=0;
+        for(int i=0;i<seq.length();i++)
+            if(seq.charAt(i)=='(') c++;
+        
+        int c0=c/2;
+        /*
+        (()()((())()))
+        */
+        Deque<int[]> s=new ArrayDeque<>();
+        c=0;
+        List<Integer> indexL= new ArrayList<>();
+        for(int i=0;i<seq.length();i++){
+            if(c==c0) break;
+            
+            int m=seq.charAt(i)=='('?0:1;//this line was in if clause.
+            
+            if(s.isEmpty()){
+                
+                s.push(new int[]{m,i});    
+            }else{
+                int[] top=s.peek();
+                if(top[0]==0&&seq.charAt(i)==')'||
+                        top[0]==1&&seq.charAt(i)=='('){
+                    s.pop();
+                    indexL.add(top[1]);
+                    indexL.add(i);
+                    c++;
+                }else{
+                    s.push(new int[]{m,i});
+                }    
+            }  
+        }
+        
+        int[] res=new int[seq.length()];
+        for(int i=0;i<indexL.size();i++)
+            res[indexL.get(i)]=1;
+        return res;
     }
 }

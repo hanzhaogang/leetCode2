@@ -24,29 +24,29 @@ public class _42_TrappingRainWater {
 		_42_TrappingRainWater s=new _42_TrappingRainWater();
 		System.out.println(s.trap3(height));
 	}
+	
+	public int trap4(int[] height) {
+    	if(height.length==0||height.length==1)
+    		return 0;
+
+        int res=0;
+        
+   	    for(int i=0;i<height.length;i++) {
+          	 int cur=Math.min(leftMax,rightMax)-height[i];
+          	 res+=0<cur?cur:0;
+           }
+   	    return res;
+    }
+	
 	public int trap3(int[] height) {
     	if(height.length==0||height.length==1)
     		return 0;
+
         //get left max and right max for each elements
    	    int[][] maxs=new int[height.length][2];
-   	    for(int i=0;i<maxs.length;i++) {
-   	   	 	for(int j=0;j<2;j++) {
-   	   	 		maxs[i][j]=-1;
-   	   	 	}
-   	    }
 
-   	    int rHeightest=height[1];
-   	    for(int i=2;i<height.length;i++) {
-   	    	if(rHeightest<height[i])
-   	   		    rHeightest=i;
-   	    }
-   	    int lHeightest=height[0];
-   	    for(int i=1;i<height.length-1;i++) {
-   	    	if(lHeightest<height[i])
-   	   		    lHeightest=i;
-   	    }
-   	    maxs[0]=new int[] {0,rHeightest};
-   	    maxs[height.length-1]=new int[] {lHeightest,0};
+   	    maxs[0]=new int[] {0,0};
+   	    maxs[height.length-1]=new int[] {0,0};
 
    	    for(int i=1;i<height.length-1;i++) {
    	    	maxs[i][0]=Math.max(maxs[i-1][0], height[i-1]);
@@ -62,6 +62,7 @@ public class _42_TrappingRainWater {
            }
    	    return res;
     }
+
     public int trap(int[] height) {
         int lo=0;
         int hi=height.length-1;
