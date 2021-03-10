@@ -1,8 +1,8 @@
 package leetCode;
 
 public class MS_200726_1 {
-	public int solution(int[] A) {
-		int n=A.length;
+	public int solution(int[] A) {//1 0组成的数组？
+		int n=A.length;//len
 		
 		int[] A1=new int[n];
 		for(int i=0;i<n;i++) {
@@ -11,7 +11,7 @@ public class MS_200726_1 {
 			}else {
 				A1[i]=1;
 			}
-		}
+		}//偶数位为0，奇数位为1
 		
 		int[] A2=new int[n];
 		for(int i=0;i<n;i++) {
@@ -20,7 +20,7 @@ public class MS_200726_1 {
 			}else {
 				A2[i]=0;
 			}
-		}
+		}//
 		
 		int res1=0;
 		for(int i=0;i<n;i++) {
