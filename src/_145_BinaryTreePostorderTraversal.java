@@ -20,7 +20,9 @@ Input: [1,null,2,3]
 Output: [3,2,1]
 
 Follow up: Recursive solution is trivial, could you do it iteratively?
-
+思路：
+1. 可以利用preorder的算法，然后反转结果List
+2. 
  */
 public class _145_BinaryTreePostorderTraversal {
     public List<Integer> postorderTraversal(TreeNode root) {
