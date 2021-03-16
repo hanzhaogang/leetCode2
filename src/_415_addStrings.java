@@ -9,6 +9,10 @@ Note:
     Both num1 and num2 contains only digits 0-9.
     Both num1 and num2 does not contain any leading zero.
     You must not use any built-in BigInteger library or convert the inputs to integer directly.
+
+
+	思路：
+	这种写法，采用的也是补齐的思想，但是没有显式的补齐。这种方式是最好的。
  */
 public class _415_addStrings {
     public String addStrings(String num1, String num2) {//911,99
