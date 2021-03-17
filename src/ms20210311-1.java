@@ -64,7 +64,8 @@ Hire
 
 English: Fair.    Communication: Good.   Logic thinking and mindset: Good.    Coding: Fair
 
-Overall his mindset and logic thinking are not bad. English is fair but overall communication skill is good. During daily work he will put more time on ML related work, but also take care service development.
+Overall his mindset and logic thinking are not bad. English is fair but overall communication skill is good. 
+During daily work he will put more time on ML related work, but also take care service development.
 
 I asked a rounding method coding question. 
 He can figure out rule quickly but his coding is kinda concern to me, 
