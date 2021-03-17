@@ -128,6 +128,7 @@ public class coding1 {
 
 
 /*
+单调栈问题
  * [3, 2, 2, 13, 24, 12, 18, 20]
 [1, 0, 0, 2, 1, 0, 0, 0]*/
 
@@ -199,6 +200,18 @@ public class coding1 {
 	
 	
 	/*
+	Pros: Good communication skills.
+
+Cons: Limited design & engineering skills. Limited coding skills.
+
+Zhaogang is a very outgoing and friendly person. He can introduce his work in a clear and understandable way. 
+He has been working on a web service deployment for a while. 
+But when I drill into details, 
+he does not explain it logically and there are some design questions remain unanswered, like performance enhancement, traffic load handling, etc. 
+For coding part, we discuss a problem about string formatting, which prints a string on a 80-character-width screen without breaking a words into two lines. 
+He does not know how to solve it and only writes segments of codes. 
+When I give him more hints, he tries to implement it, but there are still many errors and we do not finish this problem in the interview 
+(around 35 minites for coding). Overall, I think the candidate may not reach the bar in my personal opinion.
 	 *  行宽 80 字符
 	 * 
 	 * 单词不跨行。

@@ -21,6 +21,8 @@ Output: [1,2,3]
 
 Follow up: Recursive solution is trivial, could you do it iteratively?
 
+思路：
+1. 利用stack 
  */
 public class _144_BinaryTreePreorderTraversal {
     public List<Integer> preorderTraversal(TreeNode root) {

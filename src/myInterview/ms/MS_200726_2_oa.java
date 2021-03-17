@@ -1,5 +1,5 @@
 package leetCode;
-
+//二进制数的字符串，转换成10进制数
 public class MS_200726_2 {
     public int solution(String S) {
     	int lo=0;
