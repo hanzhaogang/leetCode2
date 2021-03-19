@@ -1,6 +1,7 @@
 package leetCode;
 /*
- * Given an integer n, find the closest integer (not including itself), which is a palindrome.
+ * Given an integer n, find the closest integer (not including itself), 
+ * which is a palindrome.
 
 The 'closest' is defined as absolute difference minimized between two integers.
 
@@ -9,40 +10,62 @@ Example 1:
 Input: "123"
 Output: "121"
 
-12765:12721
-10000:10001
-99800:99899,99799
-1294:1221,1331
-891->898,888,
-781->787,777,797
-187->181,171,191
+
 Note:
 
-    The input n is a positive integer represented by string, whose length will not exceed 18.
+    The input n is a positive integer represented by string, 
+    whose length will not exceed 18.
     If there is a tie, return the smaller one as answer.
 
-hint:
-12932,->12921 12821  
-99800, 99899 99799 99999
+    思路：
+    首先想到暴力法，穷举，与数字绝对值差别为1，2，,3，。。。的数字分别列举出来，然后判断是否为回文。
+    这个时间复杂度为10^18,如果一般要求1s，那么感觉会超时。
+
+    找规律。
+*/
+
+/*hint:
+Will brute force work for this problem? Think of something else.
+
+ake some examples like 1234, 999,1000, etc 
+and check their closest palindromes. How many different cases are possible?
+
+Do we have to consider only left half or right half of the string or both?
+
+Try to find the closest palindrome of these numbers- 12932, 99800, 12120. 
+Did you observe something?
+
+12932->12921 12821 
+12999->12921 12021
+99800 -> 99899 99799 99999
 12120->12121,12021,12221
 1234, ->1221,
 999,->989,1001
 1000-> 1001,999,1111,
+*/
+/*12765:12721
+10000:10001
+1294:1221,1331
+891->898,888,
+781->787,777,797
+187->181,171,191
 
+/* 官方烂翻译：
 
-要理解这种方法，让我们从一个简单的例子开始。
+1. 要理解这种方法，让我们从一个简单的例子开始。
 假设给我们的数字是 “abcxy”。将此数字转换为回文的一种方法是将字符串的一半复制到另一半。
 如果我们尝试将后半部分复制到上半部分，获得的新回文将是 “yxcxy”，
 它位于原始数字的绝对值  
-left∣10000（a−y）+1000（b−x） right∣\ left | 10000（a-y）+ 1000（b-x）\ right | left∣10000（a−y）+1000（b−x） right∣。
+10000（a−y）+1000（b−x） 
 但是，如果我们将前半部分复制到字符串的后半部分，我们获 “abcba”，它位于  
-left∣10（x−b）+（y−a） right∣\ left | 10（x-b）+（y-a）\ right | left∣10（x−b）+（y−a） right∣ 的绝对差值。
-在任何一种情况下，试图更改 ccc 将在绝对差异中产生至少 100 的额外值。
+10（x−b）+（y−a） 
+在任何一种情况下，试图更改 c 将在绝对差异中产生至少 100 的额外值。
 
-从上面的插图中，我们可以得出结论，如果使用复制来生成回文数，我们应该始终将前半部分复制到后半部分。
+从上面的插图中，我们可以得出结论，
+如果使用复制来生成回文数，我们应该始终将前半部分复制到后半部分。
 在这个实现中，我们已经将这样的数字存储在 aaa 中，差额为 diff1diff1diff1 来自 nnn。
 
-但是，还存在另一种情况，其中中间索引处的数字递增或递减。
+2.但是，还存在另一种情况，其中中间索引处的数字递增或递减。
 在这种情况下，仅对中心数字进行更改可能是有用的，因为这种变化可能导致回文形成更接近原始数字。
 例如使用上述标准，得到的回文将是 10901，与 11011 相比与 11011 的差异更大。
 如果在中间数字处出现 0，则会出现类似的情况。
@@ -50,29 +73,30 @@ left∣10（x−b）+（y−a） right∣\ left | 10（x-b）+（y-a）\ right |
 这种特殊效果在中间数字处出现 0 或 9，因为只有递减 0 并且在该数字位置递增 9 可以导致其余数字向左移动。
 在任何其他情况下，情况归结为第一段中讨论的情况。
 
-现在，每当我们在中间指数附近找到0时，为了考虑小于 nnn 的回文，我们从数字的前半部分减 1，以获得新的回文一半，
-例如如果给定的数字nnn是 20001，我们从 200 减去 1，创建一个 199xx 的数字。
+现在，每当我们在中间指数附近找到0时，为了考虑小于 n 的回文，
+我们从数字的前半部分减 1，以获得新的回文一半，
+例如如果给定的数字n是 20001，我们从 200 减去 1，创建一个 199xx 的数字。
 为了获得新的回文，我们复制前半部分以获得 19991。
 另一个例子是10000，（MSB为1），我们从 100 减去 1 创建 099xx 作为新的数字转换为 9999 作为新的回文。
-这个数字存储在 bbb 中，与 nnn 相差 diff2diff2diff2。
+这个数字存储在 b 中，与 n 相差 diff2diff2diff2。
 
 类似的处理需要用中间数字 9 来完成，除了这次我们需要考虑大于当前数字的数字。
 为此，我们在上半部分添加 1。例如取数字 10987，我们添加 1 到 109，创建一个 110xx 的形式（11011 是新的回文）。
 这个回文存储在 ccc 中，与 nnn 相差 diff3diff3diff3。
 
-在这三个回文中，我们可以选择与 nnn 最小差异的那个。
+在这三个回文中，我们可以选择与 n 最小差异的那个。
 此外，在平局的情况下，我们需要返回获得的最小回文。
 我们可以观察到，只有当一个数字大于 nnn 且另一个数字小于 nnn 时才可能出现平局。
 此外，我们知道 bbb 是通过减少 nnn 获得的。
 因此，如果 bbb 和任何其他数字之间发生冲突，我们需要选择 bbb。
 同样，ccc 是通过增加 nnn 获得的。因此，如果 ccc 和任何其他数字之间存在平局，我们需要选择 ccc 以外的数字。
+*/
 
 
 
 
-
-
-    首先，显然将前半部分复制到后半部分，要比采取相反的措施，所得到差绝对值要小。
+/*
+    1.首先，显然将前半部分复制到后半部分，要比采取相反的措施，所得到差绝对值要小。
 
     然后，在复制前半部分后，考虑是否可以改变其中的某些数字，使差值更小。
     只考虑改变前半部分的数字（包括最中间的数字）。因为后半部分的数字会随着前半部分数字的改变而改变。
