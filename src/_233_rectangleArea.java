@@ -43,6 +43,6 @@ class Solution {
                 && ( !(H<=B)&& !(D<=F)))
             return (C-A)*(D-B)+(H-F)*(G-E)-(Math.min(G,C)-Math.max(E,A))*(Math.min(D,H)-Math.max(B,F));
         else
-            return (C-A)*(D-B)+(H-F)*(G-E);
+            return (C-A)*(D-B)+(H-F)*(G-E);;//unreachable statement
     }
 }
