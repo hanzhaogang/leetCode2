@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,13 +85,13 @@ class Solution_51 {
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 if(!(row[i]==1 || col[j]==1 || dia[n-1-(i-j)]==1 || antiDia[i+j]==1)){
-                    //find a grid(i,j) to place the (k+0)th queen
+                    //find a grid(i,j) to place the (k+1)th queen
                     row[i]=1;
                     col[j]=1;
                     dia[n-1-(i-j)]=1;
                     dia[i+j]=1;
                     String str=temp.get(i);
-                    temp.set(i,str.substring(0,i)+"Q"+str.substring(i+1));
+                    temp.set(i,str.substring(0,j)+"Q"+str.substring(j+1));
                     System.out.println(k);
                     bt(res,temp,n,k+1,row,col,dia,antiDia);
                     temp.set(i,str);
