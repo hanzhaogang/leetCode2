@@ -11,6 +11,9 @@ public class mianshiti_04_03ListOfDepth {
 
 class Solution {
     public ListNode[] listOfDepth(TreeNode tree) {
+        if(tree==null)
+            return null;
+
         Queue<TreeNode> q=new LinkedList<>();
         q.offer(tree);
         List<ListNode> list=new ArrayList<>();
@@ -27,6 +30,10 @@ class Solution {
                 p.next=listNode;
                 p=p.next;
                 
+                if(treeNode.left!=null)
+                    q.offer(treeNode.left);
+                if(treeNode.right!=null)
+                    q.offer(treeNode.right);
             }
 
             list.add(dummyHead.next);
