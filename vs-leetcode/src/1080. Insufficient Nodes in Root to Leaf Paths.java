@@ -51,12 +51,19 @@ The given tree will have between 1 and 5000 nodes.
 
 
 再自底向上，记录当前节点左右子树的最大sum和的值，与新的limit值比较。
+需要一个node与新limit值的map，才能比较。
 
 
 与 打印从根节点到特定叶子节点的路径 有相似之处。
 对于每一个叶子节点，如果路径和小于limit，则从root到leaf的路径上所有节点都不是要找的节点。
+preorder，找到这些节点。
+再preorder一遍，这一次在参数中带着当前节点的parent node，
+并在需要的时候把parent node的对应孩子置为null
 
-
+Consider a DFS traversal of the tree. 
+You can keep track of the current path sum from root to this node, 
+and you can also use DFS to return the minimum value of any path from this node to the leaf. 
+This will tell you if this node is insufficient.
 */
 class Solution {
     public TreeNode sufficientSubset(TreeNode root, int limit) {
