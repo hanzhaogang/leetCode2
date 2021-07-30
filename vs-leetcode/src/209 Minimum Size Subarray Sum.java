@@ -47,6 +47,11 @@ Follow up: If you have figured out the O(n) solution, try coding another solutio
 
 ---如果是O(n)的话，直觉上是用DP或者双指针。
 
+滑动窗口是双指针的一种特殊形式。
+初始状态下l、r都指向index为0的元素。
+向右滑动r指针，直到subarray的sum大于或等于target。这个过程中舍弃的可能解都不满足要求。
+此时向右滑动l指针，
+
 */
 
 class Solution {
