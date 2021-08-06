@@ -17,8 +17,17 @@ class Solution {
 	int len=0;
 	Set<Integer> visited=new HashSet<>();
 	while(!q.isEmpty()){
-		int i=q.poll();//遍历顶点i
-		visited.add(i);
+		int size=q.size();
+		for(int i=0;i<size;i++){
+			int curNode=q.poll();//遍历顶点i
+			visited.add(curNode);
+			int[] nb=graph[curNode];
+			for(int j=0;j<graph[curNode].length;j++){
+
+			}
+		}
+		
+
 		
 	}
     }
@@ -64,4 +73,7 @@ The input graph is always connected.
 
 思路：
 搜索的不是简单的图，而是要考虑图的状态。
+
+用DFS不行的原因在于，如果成环，那么就会死循环。（剪枝可以解决状态爆炸，不能解决死循环）
+BFS恰恰可以解决这个问题。
 */
