@@ -74,3 +74,46 @@ class Solution {
 
     }
 }
+
+class Solution {
+    public int checkRecord(int n) {
+      long[][][] dp=new long[n+1][2][3];
+      dp[1][0][0]=1;
+      dp[1][0][1]=1;
+      dp[1][0][2]=0;
+      dp[1][1][0]=1;
+      dp[1][1][1]=0;
+      dp[1][1][2]=0;
+      for(int i=2;i<=n;i++){
+        for(int j=0;j<2;j++){
+          for(int k=0;k<3;k++){
+            dp[i][0][0]=dp[i-1][0][0]%(long)(Math.pow(10,9)+7)+dp[i-1][0][1]%(long)(Math.pow(10,9)+7)
+            +dp[i-1][0][2]%(long)(Math.pow(10,9)+7);
+            dp[i][0][1]=dp[i-1][0][0];
+            dp[i][0][2]=dp[i-1][0][1];
+            dp[i][1][0]=dp[i-1][0][0]%(long)(Math.pow(10,9)+7)+dp[i-1][0][1]%(long)(Math.pow(10,9)+7)
+            +dp[i-1][0][2]%(long)(Math.pow(10,9)+7)+
+                        dp[i-1][1][0]%(long)(Math.pow(10,9)+7)+dp[i-1][1][1]%(long)(Math.pow(10,9)+7)
+                        +dp[i-1][1][2]%(long)(Math.pow(10,9)+7);
+            dp[i][1][1]=dp[i-1][1][0];
+            dp[i][1][2]=dp[i-1][1][1];
+          }
+        }
+      }
+
+      long res=0;
+      for(int j=0;j<2;j++){
+        for(int k=0;k<3;k++){
+          res+=dp[n][j][k]%(Math.pow(10,9)+7);
+        }
+      }
+      return (int)(res%(Math.pow(10,9)+7));
+    }
+}
+
+
+/* 后记：
+有两点做的不好： 
+1. 考虑可能的状态转换的时候，考虑的不全面。
+2. %（10^9+7）做的不好，老是出数据类型转换的语法错误。
+*/
