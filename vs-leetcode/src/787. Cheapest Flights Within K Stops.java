@@ -1,3 +1,7 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+
 public class 787. Cheapest Flights Within K Stops {
 	
 }
@@ -67,9 +71,34 @@ while pq不为空
     for each neib of current element
       push pair into pq
 
+
+根据数据规模，无法确定是稀疏图还是稠密图。
+可以采用相对常见的稀疏图的表示。使用两个hashMap可以更方便地构建一个加权图。
+
+时间复杂度：O（e+v）其中e是边数、v是节点数
+
+另一种思路是迪杰斯特拉算法。但是是有条件的。
+
 */
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+      //build graph
+      Map<Integer,Map<Integer,Integer>> graph=new HashMap<>();
+      for(int[] flight:flights){
+        int from=flight[0];
+        int to=flight[1];
+        int price=flight[2];
+        Map<Integer,Integer> map;
+        if(!graph.containsKey(from)){
+          map=new HashMap<>();
+        }else{
+          map=graph.get(from);
+        }
+        map.put(to,price);
+      }
 
+      boolean[] visited=new boolean[n];
+      int stop=0;
+      PriorityQueue<> pq=new PriorityQueue<>();
     }
 }

@@ -69,12 +69,14 @@ class Solution {
             mp.get(edg[0]).put(edg[1], edg[2]);
         }
         
+        //初始状态节点间距离都是无穷大
         int[][] dist=new int[n][n];
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 dist[i][j]=Integer.MAX_VALUE;
             }
         }
+        
         Set<Integer> determined=new HashSet<>();
         Set<Integer> undetermined=new HashSet<>();
         for(int i=0;i<n;i++){
