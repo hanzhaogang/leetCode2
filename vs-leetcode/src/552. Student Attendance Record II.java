@@ -52,27 +52,65 @@ Constraints:
 更具体地，f(n)=f(n,以a结尾)+f(n,以l结尾)+f(n,以p)结尾。
 其中，
 f(n,以p结尾)=f(n-1), 因为以p结尾的话，完全不会把f(n-1）的string个数减少。
-f(n,以a结尾)=f(n-1)-1*f(n-1,以a结尾)-2*f(n-2,以a结尾)-。。。-f(1,以a结尾)
+f(n,以a结尾)=f(n-1)-f(1,以a结尾)*f(n-1,以a结尾)-2*f(n-2,以a结尾)-。。。-f(n-1,以a结尾)*f(1,以a结尾)
 f（n,以l结尾）=f(n-1)-f(n-1,以ll结尾)=f(n-1)-【f(n-3,以a结尾）+f（n-3,以p结尾）】，
 因为会把f（n-1）的string个数，减去长度为n-1、形式为：。。。ll的字符串个数
 
+LPA
+LLA
+PLA
+PPA
+
 接下来考虑如何建表、填表：
          
-           1  2  3  4                              n（字符串长度 ）
-         A 1  2  5
-         L 1  3
-         P 1  3 
+           1   2                 3  4                              n（字符串长度 ）
+         A 1a  2la pa            lla lpa pla ppa
+         L 1l  3ll pl al         apl ppl lal lpl all pll pal
+         P 1p  3ap lp pp         8
 （结尾字符）
 
 时间复杂度：
 因为f（n，以a结尾)的计算需要遍历从f(0,a),f(1,a),....的长度为n的dp表格，
 所以时间复杂度为n^2.
 
+
+---- n^2会超时。
+所以还需要考虑线性时间的解法。
+而一般的做法是空间换时间，所以考虑给dp数组升维。
+dp[n][ac][lc]
+dp[n][0][0]=dp[n-1][0] 第n位只能填p
+dp[n][1][0]
+dp[n][0][1]
+dp[n][1][1]
+dp[n][0][2]
+dp[n][1][2]
+
 */
 class Solution {
     public int checkRecord(int n) {
-
+      int[][] dp=new int[3][n+1];
+      for(int j=1;j<=n;j++){
+        for(int i=0;i<3;i++){
+          if(j==1){
+            dp[i][j]=1;
+          }else{
+            int preSum=dp[0][j-1]+dp[1][j-1]+dp[2][j-1];
+            dp[2][j]=preSum;
+            
+            dp[0][j]=preSum;
+            for(int k=1;k<=j-1;k++){
+              dp[0][j]-=dp[0][k]*dp[0][j-k];
+            }  
+            if(j==3)
+              dp[1][j]=preSum-1; 
+            else
+              dp[1][j]=preSum-(j<3?0:dp[0][j-3]+j<3?0:dp[2][j-3]);
+          }     
+        }
+      }
+      return dp[0][n]+dp[1][n]+dp[2][n];            
     }
+
 }
 
 class Solution {
