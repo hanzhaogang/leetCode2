@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Random;
 
 /*
- * You are given an array of positive integers w where w[i] describes the weight of ith index (0-indexed).
+ * You are given an array of positive integers w 
+ * where w[i] describes the weight of ith index (0-indexed).
 
-We need to call the function pickIndex() which randomly returns an integer in the range [0, w.length - 1]. 
+We need to call the function pickIndex() which 
+randomly returns an integer in the range [0, w.length - 1]. 
 pickIndex() should return the integer proportional to its weight in the w array. 
 For example, for w = [1, 3], the probability of picking the index 0 is 1 / (1 + 3) = 0.25 (i.e 25%) 
 while the probability of picking the index 1 is 3 / (1 + 3) = 0.75 (i.e 75%).
@@ -60,7 +62,36 @@ Constraints:
     1 <= w.length <= 10000
     1 <= w[i] <= 10^5
     pickIndex will be called at most 10000 times.
- */
+ 
+ 思路：
+ 根据数据规模，pickIndex调用10000次，n的平方级会超时。
+ 考虑nlgn或者n的复杂度。
+
+ 在构造函数中，
+ 首先遍历数组，计算totalWeight。
+ 然后建立一个totalWeight长度的array，在array中依次填写weight个数的index。
+ 这样可以把array填满。
+ 时间复杂度O（n）+ O（totalWeight）。
+ ---问题是totalWeight可能很大。
+
+    */
+class Solution {
+
+    public Solution(int[] w) {
+
+    }
+    
+    public int pickIndex() {
+
+    }
+}
+
+
+
+
+
+
+
 public class _528_RandomPickWithWeight {
 	List<Integer> indexList;
 	Random r;

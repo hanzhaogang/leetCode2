@@ -83,6 +83,10 @@ follow up 1:
 
 follow up 2:
 如果数据99%都在[0,100],维护一个number的 totalCount、一个作为桶的数组、
+一个存放小于0的数、一个存放大于100的数
+每次add
+每次find
+
 */
 public class _295_FindMedianfromDataStream {
     /** initialize your data structure here. */
