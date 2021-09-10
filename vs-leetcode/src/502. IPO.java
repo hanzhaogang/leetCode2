@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.PriorityQueue;
+
 public class 502. IPO {
 	
 }
@@ -62,9 +65,39 @@ n == capital.length
 
 ----
 首先建立一个Map，从要求的初始capital-》能获得的最大profile的映射。
+
+---
+由lgn的复杂度不光可以联想到二分查找，还可以是堆（优先队列）。
+大根堆（优先队列）可以做到每次从堆中弹出的都是当前最大的元素。
+
+
 */
 class Solution {
     public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
-
+        int[][] pros=new int[profits.length][2];
+        for(int i=0;i<profits.length;i++){
+            pros[i][0]=profits[i];
+            pros[i][1]=capital[i];
+        }
+        Arrays.sort(pros,(int[] pro1,int[] pro2)->{return Integer.compare(pro1[1],pro2[1]);});
+        PriorityQueue<int[]> pq=new PriorityQueue<>((int[] pro1,int[] pro2)->{
+            return Integer.compare(pro2[0],pro1[0]);
+        });
+        int j=0;
+        for(int i=0;i<k;i++){
+            for(;j<pros.length;j++){
+                if(pros[j][1]<=w){
+                    pq.offer(pros[j]);
+                }else{
+                    break;
+                }
+            }
+            if(pq.isEmpty()){
+                return w;
+            }
+            int[] polled=pq.poll();
+            w+=polled[0];
+        }
+        return w;
     }
 }
