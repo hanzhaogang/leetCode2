@@ -44,7 +44,8 @@ Output:
   "acknowledgment  ",
   "shall be        "
 ]
-Explanation: Note that the last line is "shall be    " instead of "shall     be", because the last line must be left-justified instead of fully-justified.
+Explanation: Note that the last line is "shall be    " instead of "shall     be", 
+because the last line must be left-justified instead of fully-justified.
 Note that the second line is also left-justified becase it contains only one word.
 Example 3:
 
@@ -84,6 +85,50 @@ class Solution {
             lens[i]=word.length();
         }
         List<List<String>> list=new ArrayList<>(); 
-        
+        List<String> line=new ArrayList<>();
+        int count=0;
+        List<Integer> extr_sp_cnt=new ArrayList<>();
+        for(String word:words){
+            //如果当前行width+word.length()==maxWidth,...如果。。。
+            if(count+word.length()==maxWidth||count+word.length()==maxWidth-1){
+                line.add(word);
+                list.add(new ArrayList<String>(line));
+                line.clear();
+                count=0;
+            }else if(count+word.length()<maxWidth-1){
+                line.add(word);
+                count+=word.length()+1;
+            }else{
+                list.add(new ArrayList<String>(line));
+                line.clear();
+                count=0;
+            }            
+        }
+        //按照规则调整每一行中单词的位置
+        List<String> res=new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            List<String> ln=list.get(i);
+            
+            StringBuilder sb=new StringBuilder();
+            if(i==list.size()-1){
+                for(int j=0;j<ln.size();j++){
+                    if(j==ln.size()-1){
+                        sb.append(ln.get(j));
+                    }else{
+                        sb.append(ln.get(j)).append(" ");
+                    }
+                }
+            }else{
+                int charCount=0;
+                for(String word:ln){
+                    charCount+=word.length();
+                }
+                int wordCount=ln.size();            
+                int spaceCount=maxWidth-charCount;
+                List<String> spc_list=new ArrayList<>();
+                if()
+            }
+        }
+        return res;
     }
 }

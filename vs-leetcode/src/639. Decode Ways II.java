@@ -81,6 +81,7 @@ class Solution {
     public int numDecodings(String s) {
 	int n=s.length();
 	long[] dp=new long[n];
+	long mod=(long)Math.pow(10,9)+7;
 	for(int i=0;i<n;i++){
 		char c=s.charAt(i);
 		if(i==0){
@@ -92,13 +93,24 @@ class Solution {
 		}else{	
 			char pre=s.charAt(i-1);
 			if(c=='*'){
+				dp[i]+=9*dp[i-1];
 				if(pre=='*'){
 					if(0<=i-2)
 						dp[i]+=15*dp[i-2];
-				}else if('1'==pre){
-					dp[i]+=9*dp[i-2];
+					else
+						dp[i]+=15;
+				}else if(pre=='1'){
+					if(0<=i-2){
+						dp[i]+=9*dp[i-2];
+					}else{
+						dp[i]+=9;
+					}
 				}else if(pre=='2'){
-					dp[i]+=6*dp[i-2];
+					if(0<=i-2){
+						dp[i]+=6*dp[i-2];
+					}else{
+						dp[i]+=6;
+					}	
 				}	
 			}else if(c=='0'){
 				if(pre=='1'||pre=='2'){
@@ -115,12 +127,22 @@ class Solution {
 					}
 				}
 			}else if('1'<=c&&c<='9'){
+				dp[i]+=dp[i-1];
 				if(pre=='*'){//*1
-					if(0<=i-2){
-						dp[i]+=2*dp[i-2];
+					if('1'<=c&&c<='6'){
+						if(0<=i-2){
+							dp[i]+=2*dp[i-2];
+						}else{
+							dp[i]+=2;
+						}
 					}else{
-						dp[i]+=15;
-					}	
+						if(0<=i-2){
+							dp[i]+=dp[i-2];
+						}else{
+							dp[i]+=1;
+						}
+					}
+						
 				} else if(pre=='1'||pre=='2'&&'1'<=c&&c<='6'){
 					if(0<=i-2){
 						dp[i]+=dp[i-2];
@@ -130,8 +152,9 @@ class Solution {
 				}
 			}
 		}
+		dp[i]=dp[i]%mod;
 	}
 
-	return (int)(dp[n-1]%((long)Math.pow(10,9)+7));
+	return (int)(dp[n-1]%mod);
     }
 }
