@@ -76,46 +76,65 @@ words[i].length <= maxWidth
 思路：
 首先确定每一行都应该包含哪些单词。
 然后给每一行填入对应的单词。
-最后按照要求调整这些单词的位置。*/
+最后按照要求调整这些单词的位置。
+
+码后检查&corner case的思路：
+可以直接看代码，在看的时候，针对每一步操作，考虑corner case。注意，这并不能代替跑test case。
+
+*/
 class Solution {
     public List<String> fullJustify(String[] words, int maxWidth) {
-        int[] lens=new int[words.length];
-        for(int i=0;i<words.length;i++){
-            String word=words[i];
-            lens[i]=word.length();
-        }
-        List<List<String>> list=new ArrayList<>(); 
+        List<List<String>> full_text=new ArrayList<>(); 
         List<String> line=new ArrayList<>();
-        int count=0;
-        List<Integer> extr_sp_cnt=new ArrayList<>();
+        int cur_word_c=0;
         for(String word:words){
             //如果当前行width+word.length()==maxWidth,...如果。。。
-            if(count+word.length()==maxWidth||count+word.length()==maxWidth-1){
+            if(cur_word_c+word.length()==maxWidth||cur_word_c+word.length()==maxWidth-1){
                 line.add(word);
-                list.add(new ArrayList<String>(line));
+                full_text.add(new ArrayList<String>(line));
                 line.clear();
-                count=0;
-            }else if(count+word.length()<maxWidth-1){
+                cur_word_c=0;
+            }else if(cur_word_c+word.length()<maxWidth-1){
                 line.add(word);
-                count+=word.length()+1;
-            }else{
-                list.add(new ArrayList<String>(line));
+                cur_word_c+=word.length()+1;
+            }else{//换一行
+                full_text.add(new ArrayList<String>(line));
                 line.clear();
-                count=0;
+                line.add(word);
+                cur_word_c=word.length();
+                if(cur_word_c==maxWidth||cur_word_c==maxWidth-1){
+                    full_text.add(new ArrayList<String>(line));
+                    line.clear();
+                    cur_word_c=0;
+                }else{
+                    cur_word_c++;
+                }
             }            
         }
+        if(line.size()!=0)
+            full_text.add(line);
         //按照规则调整每一行中单词的位置
         List<String> res=new ArrayList<>();
-        for(int i=0;i<list.size();i++){
-            List<String> ln=list.get(i);
-            
+        for(int i=0;i<full_text.size();i++){
+            List<String> ln=full_text.get(i);
             StringBuilder sb=new StringBuilder();
-            if(i==list.size()-1){
+            if(ln.size()==1){
+                    sb.append(ln.get(0));
+                    for(int j=0;j<maxWidth-ln.get(0).length();j++){
+                        sb.append(" ");
+                    }
+            }else if(i==full_text.size()-1){
+                int cur_c_c=0;
                 for(int j=0;j<ln.size();j++){
                     if(j==ln.size()-1){
                         sb.append(ln.get(j));
+                        cur_c_c+=ln.get(j).length();
+                        for(int k=0;k<maxWidth-cur_c_c;k++){
+                            sb.append(" ");
+                        }
                     }else{
                         sb.append(ln.get(j)).append(" ");
+                        cur_c_c+=ln.get(j).length()+1;
                     }
                 }
             }else{
@@ -125,9 +144,30 @@ class Solution {
                 }
                 int wordCount=ln.size();            
                 int spaceCount=maxWidth-charCount;
-                List<String> spc_list=new ArrayList<>();
-                if()
+                if(spaceCount%(wordCount-1)==0){
+                    for(int j=0;j<wordCount-1;j++){
+                        sb.append(ln.get(j));
+                        int c=spaceCount/(wordCount-1);
+                        for(int k=0;k<c;k++){
+                            sb.append(" ");
+                        }
+                    }
+                }else{
+                    for(int j=0;j<wordCount-1;j++){
+                        sb.append(ln.get(j));
+                        int spc_c=spaceCount/(wordCount-1);
+                        for(int k=0;k<spc_c;k++){
+                            sb.append(" ");
+                        }
+                        int frst_c=spaceCount%(wordCount-1);
+                        if(j<frst_c){
+                            sb.append(" ");
+                        }
+                    }
+                }
+                sb.append(ln.get(wordCount-1));
             }
+            res.add(sb.toString());
         }
         return res;
     }
