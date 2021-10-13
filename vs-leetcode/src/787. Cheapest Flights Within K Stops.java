@@ -88,17 +88,41 @@ class Solution {
         int from=flight[0];
         int to=flight[1];
         int price=flight[2];
-        Map<Integer,Integer> map;
-        if(!graph.containsKey(from)){
-          map=new HashMap<>();
-        }else{
-          map=graph.get(from);
-        }
+        Map<Integer,Integer> map=graph.containsKey(from)?graph.get(from):new HashMap<>();
         map.put(to,price);
+        graph.put(from,map);
       }
 
       boolean[] visited=new boolean[n];
-      int stop=0;
-      PriorityQueue<> pq=new PriorityQueue<>();
+      PriorityQueue<int[]> pq=new PriorityQueue<>((a1,a2)->{
+        
+          return Integer.compare(a1[1], a2[1]);
+        
+      });
+      pq.offer(new int[]{src,0,0});//node,totalPrice,stopCount
+      while(!pq.isEmpty()){
+        int[] polled=pq.poll();
+        if(visited[polled[0]])
+          continue;
+        visited[polled[0]]=true;
+        if(polled[2]==k&&polled[0]!=dst){
+          continue;
+        }
+        if(polled[0]==dst){
+          return polled[1];
+        }else{
+          Map<Integer,Integer> to2price=graph.get(polled[0]);
+          if(to2price==null){
+            continue;
+          }
+          for(Map.Entry<Integer,Integer> e:to2price.entrySet()){
+            if(visited[e.getKey()]){
+              continue;
+            }
+            pq.offer(new int[]{e.getKey(),e.getValue()+polled[1],polled[2]+1});
+          }
+        }
+      }
+      return -1;
     }
 }
