@@ -53,7 +53,12 @@ n == machines.length
 反之，则总能通过移动，使衣服变得均匀。
 
 根据时间复杂度，可知平方级的算法会超时。
+如果想排除lng，那么要排除堆和二分。
+二分也可以解决极值问题，
 
+
+-----
+确定了使用贪心算法之后，
 */
 class Solution {
     public int findMinMoves(int[] machines) {
