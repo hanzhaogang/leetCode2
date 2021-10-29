@@ -79,6 +79,7 @@ DP。
 */
 class Solution {
     public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+	//price = [2,5], special = [[3,0,5],[1,2,10]], needs = [3,2]
 	List<List<Integer>> special_filtered=new ArrayList<>();
 	for(int i=0;i<special.size();i++){
 		List<Integer> s=special.get(i);
@@ -94,20 +95,35 @@ class Solution {
 		}
 	}	
 
-	helper(price,special_filtered,needs);
+	return helper(price,special_filtered,needs);
     }
     private int helper(List<Integer> price,List<List<Integer>> special,List<Integer> needs){
-	 int res=0;   
+	//price = [2,5], special = [[3,0,5],[1,2,10]], needs = [3,2]
+	int res=0;   
 	for(int i=0;i<needs.size();i++){
 		res+=needs.get(i)*price.get(i);
-	}
+	}//16
 
-	for(List<Integer> s:special){
+	for(List<Integer> s:special){//3 0 5
+		boolean b=true;
+		for(int i=0;i<needs.size();i++){
+			if(needs.get(i)<s.get(i)){
+				b=false;
+				break;
+			}
+		}
+		if(!b){
+			continue;
+		}
 		List<Integer> new_needs=new ArrayList<>();
+		for(int i=0;i<needs.size();i++){
+			new_needs.add(needs.get(i)-s.get(i));
+		}
 		int p=s.get(s.size()-1)+helper(price,special,new_needs);
 		if(p<res){
 			res=p;
 		}
 	}
+	return res;
     }
 }
