@@ -57,21 +57,34 @@ dp[i]=Math.max(dp[0],dp[1],...dp[i-1])
 [-4,-3,0,3,4,6,7]
 -- subsequence 问题为什么要排序！
 -- 查找
+不排序，如何找到t=当前元素arr[i]-difference所在的位置、对应的最长subsequence长度？
+原来的想法是用hashmap，这样查找时间复杂度为常量，比二分查找还快。
+但是t可能不止一个，继而想到可以在hashmap里面存储<t,MaxHeap<最长subsequence长度>>。
+看了答案才知道有更优解法： 并不需要存储t对应的所有的最长subsequence的长度，只需要记录其中最长的就行了。
+所以，最终还是需要一个hashmap，存储<t,最长的最长subsequence长度。
+好像dp数组也不必要，因为在计算dp[i]的时候，只需要dp[t=arr[i]-difference],不需要其他dp值。
 */
 class Solution {
     public int longestSubsequence(int[] arr, int difference) {
 	int n=arr.length;
-	Map<Integer,Integer> map=new HashMap<>();
-	int[] dp=new int[n];
-	for(int i=0;i<n;i++){
-		if(i==0) dp[i]=1;
-
-		int t=arr[i]-Math.abs(difference);
-
-	}
+	Map<Integer,Integer> map=new HashMap<>();//arr中的数值、数值对应的最长的最长subsequence长度
 	int res=1;
-	for(int i:dp){
-		if(res<i) res=i;
+	for(int i=0;i<n;i++){//[3,0,-3,4,-4,7,6],3//arr = [1,5,7,8,5,3,4,2,1], difference = -2
+		int max_len;
+		if(i==0){
+			max_len=1;
+		}else{
+			int t=arr[i]-difference;
+			if(map.containsKey(t)){
+				max_len=map.get(t)+1;
+			}else{
+				max_len=1;
+			}
+		} 
+		map.put(arr[i],max_len);
+		if(res<max_len){
+			res=max_len;
+		}
 	}
 	return res;
     }

@@ -99,6 +99,6 @@ class Solution {
 
       boolean[] visited=new boolean[n];
       int stop=0;
-      PriorityQueue<int[]> pq=new PriorityQueue<>();
+      PriorityQueue pq=new PriorityQueue<>();
     }
 }
