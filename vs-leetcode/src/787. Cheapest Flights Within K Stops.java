@@ -102,8 +102,8 @@ class Solution {
       pq.offer(new int[]{src,0,0});//node,totalPrice,stopCount
       while(!pq.isEmpty()){
         int[] polled=pq.poll();
-        if(visited[polled[0]])
-          continue;
+        // if(visited[polled[0]])
+        //   continue;
         visited[polled[0]]=true;
         if(polled[2]==k&&polled[0]!=dst){
           continue;
@@ -124,7 +124,5 @@ class Solution {
         }
       }
       return -1;
-      int stop=0;
-      PriorityQueue pq=new PriorityQueue<>();
     }
 }
