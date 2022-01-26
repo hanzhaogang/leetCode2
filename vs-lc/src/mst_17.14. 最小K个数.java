@@ -1,6 +1,6 @@
 import java.util.PriorityQueue;
 
-public class 面试题 17.14. 最小K个数 {
+public class mst_17.14. 最小K个数 {
 	
 }
 /* 设计一个算法，找出数组中最小的k个数。以任意顺序返回这k个数均可。
