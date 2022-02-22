@@ -44,7 +44,34 @@ Constraints:
 在同一对角线:i==j相等 || i==(n-j)
 
 */
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        List<List<Integer>> list=new ArrayList<>();
+        placeIQueen(list,new ArrayList<Integer>(),0,n);
+        List<List<String>> res=new ArrayList<>();
+        for(List<Integer> l:list){
+            List<
+            res.add(temp);
+        }
+        return res;
+    }
+    private void placeIQueen(List<List<Integer>> res,List<Integer> list,int i,int n){
+        if(i==n){
+            res.add(new ArrayList<Integer>(list));
+            return;
+        }
 
+        for(int j=0;j<n;j++){//if can be placed in j-th
+            boolean b=false;
+            for(int k=0;k<list.size();k++){
+                if(list.get(k)==j || j-i==k-list.get(k)){
+                    continue;
+                }
+
+            }
+        }
+    }
+}
 public class _51_nQueen {
     public static void main(String[] args){
         Solution_51 s=new Solution_51();
