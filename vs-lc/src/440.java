@@ -84,7 +84,7 @@ Constraints:
 对于任意一个n，首先确定总位数d和首个数字k。它前面至少有：
 首个数字为1、2、...k-1的、总位数为1、2、d-1的所有数字。
 
-
+7836-》1836
 */
 class Solution {
     public int findKthNumber(int n, int k) {
@@ -98,9 +98,15 @@ class Solution {
 	}
 	int[] cs=new int[]{1,10,100,1000,10000,100000,1000000,10000000,100000000};
 	int c=0;
+	int t1=0;
+	int t2=0;
 	for(int i=1;i<=fd;i++){
 		for(int j=1;j<=dc;j++){
 			c+=cs[j-1];
+			if(k<c){
+				t1=i;
+				t2=j-1;
+			}
 		}
 	}
     }
