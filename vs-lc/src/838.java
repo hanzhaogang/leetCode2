@@ -32,7 +32,9 @@ class Solution {
 					}
 					l=h;
 				}else{
-					
+					for(int i=0;i<(h-l-1)
+					h++;
+					l=h;
 				}
 			}else {
 				
