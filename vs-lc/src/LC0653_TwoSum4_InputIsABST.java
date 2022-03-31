@@ -41,3 +41,38 @@ Output: False*/
 public class LC0653_TwoSum4_InputIsABST {
 
 }
+
+class Solution {
+	boolean b;
+    public boolean findTarget(TreeNode root, int k) {
+	if(root==null)
+	    return false;
+
+	preorder(root,root,k);
+	return b;
+    }
+
+    private void preorder(TreeNode root,TreeNode curNode,int k){
+	    if(curNode==null)
+	        return;
+	    bs(root,curNode,k-curNode.val);
+	    preorder(root,curNode.left,k);
+	    preorder(root,curNode.right,k);
+    }
+    
+
+    private boolean bs(TreeNode root,TreeNode curNode,int t){
+	    if(curNode==null)
+	    	return false;
+	
+	    
+	    if(root.val==t && root!=curNode || root.left!=null && root.left.val==t || root.right!=null && root.right.val==t)
+	    		return true;
+	    if(root.val<t)
+	        bs(root.right,curNode,t);
+	    else 
+	        bs(root.left,curNode,t);
+	
+	    return false;
+    }
+}
