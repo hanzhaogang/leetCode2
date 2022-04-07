@@ -45,5 +45,7 @@ class Solution {
 			}
 		}
 	}
+	sb.append(dominoes.substring(l));
+	return sb.toString();
     }
 }
